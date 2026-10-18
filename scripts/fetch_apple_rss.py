@@ -11,7 +11,8 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
-FEED_URL = "https://www.apple.com/newsroom/rss-feed.rss"
+# Apple publica una edición localizada de Newsroom para España.
+FEED_URL = "https://www.apple.com/es/newsroom/rss-feed.rss"
 OUTPUT = Path("news.json")
 MAX_ITEMS = 24
 
@@ -43,7 +44,7 @@ def entry_url(node: ET.Element) -> str:
 def fetch() -> bytes:
     request = urllib.request.Request(
         FEED_URL,
-        headers={"User-Agent": "Cupertino RSS updater/1.0 (+https://github.com/Santirdrgz/cupertino.github.io)"},
+        headers={"User-Agent": "Cupertino RSS updater/1.0 (+https://cuperttino.github.io/)"},
     )
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read()
