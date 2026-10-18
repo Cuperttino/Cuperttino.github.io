@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch Apple Newsroom RSS and write the lightweight data used by the site."""
+"""Fetch Apple Newsroom feeds (RSS or Atom) and write data used by the site."""
 from __future__ import annotations
 
 import html
@@ -20,6 +20,26 @@ def clean(value: str | None) -> str:
     value = re.sub(r"<[^>]+>", " ", value)
     return re.sub(r"\s+", " ", value).strip()
 
+def local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1].lower()
+
+def child_text(node: ET.Element, *names: str) -> str:
+    wanted = set(names)
+    for child in node:
+        if local_name(child.tag) in wanted:
+            return clean(child.text)
+    return ""
+
+def entry_url(node: ET.Element) -> str:
+    for child in node:
+        if local_name(child.tag) == "link":
+            href = clean(child.attrib.get("href"))
+            if href:
+                return href
+            if clean(child.text):
+                return clean(child.text)
+    return ""
+
 def fetch() -> bytes:
     request = urllib.request.Request(
         FEED_URL,
@@ -28,30 +48,27 @@ def fetch() -> bytes:
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read()
 
-def formatted_date(value: str | None) -> str:
+def formatted_date(value: str) -> str:
     if not value:
         return "Reciente"
     try:
         return parsedate_to_datetime(value).astimezone(timezone.utc).strftime("%d %b %Y").upper()
     except (TypeError, ValueError, IndexError):
-        return clean(value)
+        return value
 
 def main() -> None:
     root = ET.fromstring(fetch())
+    candidates = [node for node in root.iter() if local_name(node.tag) in {"item", "entry"}]
     items = []
-    for node in root.findall("./channel/item")[:MAX_ITEMS]:
-        title = clean(node.findtext("title"))
-        url = clean(node.findtext("link"))
-        summary = clean(node.findtext("description"))
+    for node in candidates[:MAX_ITEMS]:
+        title = child_text(node, "title")
+        url = entry_url(node)
+        summary = child_text(node, "description", "summary", "content")
+        published = child_text(node, "pubdate", "published", "updated", "date")
         if title and url:
-            items.append({
-                "title": title,
-                "url": url,
-                "summary": summary,
-                "date": formatted_date(node.findtext("pubDate")),
-            })
+            items.append({"title": title, "url": url, "summary": summary, "date": formatted_date(published)})
     if not items:
-        raise RuntimeError("Apple Newsroom RSS returned no usable items.")
+        raise RuntimeError("Apple Newsroom feed returned no usable entries.")
     OUTPUT.write_text(json.dumps({
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
         "source": FEED_URL,
