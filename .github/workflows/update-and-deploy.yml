@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - ".github/workflows/update-and-deploy.yml"
+      - "scripts/fetch_apple_rss.py"
 
 permissions:
   contents: write
