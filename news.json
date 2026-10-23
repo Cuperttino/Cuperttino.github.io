@@ -1,7 +1,19 @@
 {
-  "updated_at": "2026-10-23T12:13:41Z",
+  "updated_at": "2026-10-23T20:42:08Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Los desarrolladores despliegan nuevas experiencias increíbles en apps para el iPhone Duo",
+      "url": "https://www.apple.com/es/newsroom/2026/10/developers-bring-incredible-new-app-experiences-to-iphone-duo/",
+      "summary": "A partir de este viernes, los usuarios del iPhone Duo podrán descubrir apps y juegos increíbles optimizados para el primer iPhone plegable.",
+      "date": "2026-10-23T13:42:41.478Z"
+    },
+    {
+      "title": "Apple presenta Designers of Tomorrow 2026",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-unveils-the-2026-designers-of-tomorrow/",
+      "summary": "La muestra Designers of Tomorrow de Apple vuelve para dar visibilidad a lo mejor del talento emergente, esta vez centrada en el tema de la presencia.",
+      "date": "2026-10-23T12:52:54.481Z"
+    },
     {
       "title": "El iPhone Duo abre un mundo de posibilidades",
       "url": "https://www.apple.com/es/newsroom/2026/10/open-up-to-new-possibilities-with-iphone-duo/",
@@ -109,18 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/apples-new-child-safety-features-now-available/",
       "summary": "Las nuevas herramientas de Apple para que los padres velen por la seguridad digital de sus hijos ya están disponibles en el iPhone, iPad, Mac y otros dispositivos.",
       "date": "2026-09-22T10:51:08.347Z"
-    },
-    {
-      "title": "Apple presenta el iPhone Duo",
-      "url": "https://www.apple.com/es/newsroom/2026/09/apple-unveils-iphone-duo/",
-      "summary": "Apple ha presentado hoy el iPhone Duo, el primer iPhone plegable.",
-      "date": "2026-09-09T19:58:57.787Z"
-    },
-    {
-      "title": "Apple presenta el Apple Watch Ultra 4",
-      "url": "https://www.apple.com/es/newsroom/2026/09/apple-unveils-apple-watch-ultra-4/",
-      "summary": "Apple ha presentado hoy el Apple Watch Ultra 4, el reloj de deporte y aventura definitivo, ahora con nuevas prestaciones de salud, fitness y Apple Intelligence.",
-      "date": "2026-09-09T19:03:31.150Z"
     }
   ]
 }
