@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-10-26T11:38:09Z",
+  "updated_at": "2026-10-26T17:43:48Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Apple presenta la mayor actualización del iPad mini de la historia",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-gives-ipad-mini-its-biggest-update-ever/",
+      "summary": "Apple presenta el nuevo iPad mini con pantalla OLED en un diseño más fino, un salto en rendimiento con el A20 Pro y resistencia al agua y el polvo.",
+      "date": "2026-10-26T13:05:55.819Z"
+    },
     {
       "title": "El iPhone Duo llega a las Apple Store de todo el mundo",
       "url": "https://www.apple.com/es/newsroom/2026/10/iphone-duo-arrives-at-apple-store-locations-worldwide/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/major-updates-for-apples-software-platforms-are-now-available/",
       "summary": "Las últimas actualizaciones de software de Apple incluyen nuevas y útiles prestaciones de Apple Intelligence.",
       "date": "2026-09-24T13:44:59.915Z"
-    },
-    {
-      "title": "Es el momento de descubrir el iPhone 18 Pro, los nuevos modelos de Apple Watch y los AirPods 5",
-      "url": "https://www.apple.com/es/newsroom/2026/09/get-ready-to-experience-iphone-18-pro-the-new-apple-watch-lineup-and-airpods-5/",
-      "summary": "Los clientes pueden reservar el iPhone 18 Pro y el iPhone 18 Pro Max a partir del sábado, 12 de septiembre.",
-      "date": "2026-09-22T15:00:21.115Z"
     }
   ]
 }
