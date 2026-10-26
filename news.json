@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-10-26T01:55:36Z",
+  "updated_at": "2026-10-26T11:38:09Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "El iPhone Duo llega a las Apple Store de todo el mundo",
+      "url": "https://www.apple.com/es/newsroom/2026/10/iphone-duo-arrives-at-apple-store-locations-worldwide/",
+      "summary": "El viernes, 23 de octubre, el esperado iPhone Duo se estrenó en las Apple Store de todo el mundo.",
+      "date": "2026-10-26T07:56:41.560Z"
+    },
     {
       "title": "Los desarrolladores despliegan nuevas experiencias increíbles en apps para el iPhone Duo",
       "url": "https://www.apple.com/es/newsroom/2026/10/developers-bring-incredible-new-app-experiences-to-iphone-duo/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/get-ready-to-experience-iphone-18-pro-the-new-apple-watch-lineup-and-airpods-5/",
       "summary": "Los clientes pueden reservar el iPhone 18 Pro y el iPhone 18 Pro Max a partir del sábado, 12 de septiembre.",
       "date": "2026-09-22T15:00:21.115Z"
-    },
-    {
-      "title": "Apple ofrece nuevas prestaciones de seguridad infantil",
-      "url": "https://www.apple.com/es/newsroom/2026/09/apples-new-child-safety-features-now-available/",
-      "summary": "Las nuevas herramientas de Apple para que los padres velen por la seguridad digital de sus hijos ya están disponibles en el iPhone, iPad, Mac y otros dispositivos.",
-      "date": "2026-09-22T10:51:08.347Z"
     }
   ]
 }
