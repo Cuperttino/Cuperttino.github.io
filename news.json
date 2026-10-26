@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-10-26T17:43:48Z",
+  "updated_at": "2026-10-26T21:57:39Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Siri AI ya está disponible en español",
+      "url": "https://www.apple.com/es/newsroom/2026/10/siri-ai-is-now-available-in-more-languages/",
+      "summary": "Apple ha lanzado hoy Siri AI en español, coreano, francés, japonés y portugués, como parte de las actualizaciones de macOS 27.2 y visionOS 27.2.",
+      "date": "2026-10-26T18:38:42.204Z"
+    },
     {
       "title": "Apple presenta la mayor actualización del iPad mini de la historia",
       "url": "https://www.apple.com/es/newsroom/2026/10/apple-gives-ipad-mini-its-biggest-update-ever/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/next-generation-of-apple-intelligence-is-available-today/",
       "summary": "Apple ha lanzado la nueva generación de Apple Intelligence.",
       "date": "2026-09-24T14:14:06.419Z"
-    },
-    {
-      "title": "Ya están disponibles importantes actualizaciones de las plataformas de software de Apple",
-      "url": "https://www.apple.com/es/newsroom/2026/09/major-updates-for-apples-software-platforms-are-now-available/",
-      "summary": "Las últimas actualizaciones de software de Apple incluyen nuevas y útiles prestaciones de Apple Intelligence.",
-      "date": "2026-09-24T13:44:59.915Z"
     }
   ]
 }
