@@ -1,7 +1,25 @@
 {
-  "updated_at": "2026-10-27T11:07:54Z",
+  "updated_at": "2026-10-27T16:54:58Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Apple presenta el nuevo MacBook Pro de 14 pulgadas con M6",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-introduces-the-new-14-inch-macbook-pro-with-m6/",
+      "summary": "Apple ha anunciado hoy el nuevo MacBook Pro de 14 pulgadas con M6, que ofrece mayor rendimiento, potentes funcionalidades de IA en el dispositivo y conectividad más rápida.",
+      "date": "2026-10-27T13:19:32.723Z"
+    },
+    {
+      "title": "Apple Creator Studio añade potentes prestaciones de IA y aún más herramientas creativas",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-creator-studio-adds-powerful-new-ai-features-and-even-more-creative-tools/",
+      "summary": "Apple presenta actualizaciones para Apple Creator Studio, la colección de apps creativas diseñadas para poner herramientas de calidad profesional al alcance de los creadores.",
+      "date": "2026-10-27T13:15:05.596Z"
+    },
+    {
+      "title": "Apple presenta el nuevo iMac con M6",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-unveils-new-imac-with-m6/",
+      "summary": "Apple ha anunciado hoy el nuevo iMac con el superveloz M6, que ofrece aún más rendimiento y potentes funcionalidades de IA.",
+      "date": "2026-10-27T13:13:59.492Z"
+    },
     {
       "title": "Siri AI ya está disponible en español",
       "url": "https://www.apple.com/es/newsroom/2026/10/siri-ai-is-now-available-in-more-languages/",
@@ -103,24 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/apple-opens-apple-music-hall-a-state-of-the-art-live-music-venue-in-london/",
       "summary": "Ya ha abierto sus puertas el Apple Music Hall, un auditorio de vanguardia en la antigua central eléctrica de Battersea en Londres.",
       "date": "2026-09-24T15:05:49.209Z"
-    },
-    {
-      "title": "Los últimos modelos de iPhone, Apple Watch y AirPods llegan a las tiendas de todo el mundo",
-      "url": "https://www.apple.com/es/newsroom/2026/09/the-latest-iphone-apple-watch-and-airpods-lineups-arrive-in-stores-worldwide/",
-      "summary": "El viernes, 18 de septiembre, los clientes de las tiendas Apple Store de todo el mundo pudieron conocer los nuevos modelos de iPhone 18 Pro, Apple Watch Series 12, Apple Watch Ultra 4 y AirPods 5.",
-      "date": "2026-09-24T14:29:56.060Z"
-    },
-    {
-      "title": "La maldición de Widow’s Bay triunfa como la comedia debutante más premiada en la historia de los Emmy",
-      "url": "https://www.apple.com/es/newsroom/2026/09/widows-bay-triumphs-as-most-decorated-freshman-comedy-in-emmy-history/",
-      "summary": "Esta noche, en la 78.ª edición de los premios Primetime Emmy, Apple TV pulveriza los récords al convertirse en la plataforma más premiada del año, con un total de 29 galardones.",
-      "date": "2026-09-24T14:16:39.002Z"
-    },
-    {
-      "title": "La nueva generación de Apple Intelligence ya está disponible",
-      "url": "https://www.apple.com/es/newsroom/2026/09/next-generation-of-apple-intelligence-is-available-today/",
-      "summary": "Apple ha lanzado la nueva generación de Apple Intelligence.",
-      "date": "2026-09-24T14:14:06.419Z"
     }
   ]
 }
