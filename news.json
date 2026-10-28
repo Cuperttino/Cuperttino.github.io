@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-10-28T11:42:50Z",
+  "updated_at": "2026-10-28T17:29:11Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Apple presenta el revolucionario MacBook Pro con pantalla PROLED XDR",
+      "url": "https://www.apple.com/es/newsroom/2026/10/apple-unveils-groundbreaking-macbook-pro-with-proled-xdr-display/",
+      "summary": "Apple ha presentado hoy el nuevo MacBook Pro con pantalla PROLED XDR, que incorpora la revolucionaria tecnología OLED en tándem.",
+      "date": "2026-10-28T17:20:29.367Z"
+    },
     {
       "title": "Apple presenta el nuevo MacBook Pro de 14 pulgadas con M6",
       "url": "https://www.apple.com/es/newsroom/2026/10/apple-introduces-the-new-14-inch-macbook-pro-with-m6/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/the-new-mac-mini-and-mac-studio-are-available-today/",
       "summary": "El Mac mini con M6 y M5 Pro y el Mac Studio con M5 Max y M5 Ultra ya están disponibles en las Apple Store, en la web y en la app Apple Store",
       "date": "2026-09-24T17:47:58.367Z"
-    },
-    {
-      "title": "Apple inaugura el Apple Music Hall, un auditorio de vanguardia en Londres",
-      "url": "https://www.apple.com/es/newsroom/2026/09/apple-opens-apple-music-hall-a-state-of-the-art-live-music-venue-in-london/",
-      "summary": "Ya ha abierto sus puertas el Apple Music Hall, un auditorio de vanguardia en la antigua central eléctrica de Battersea en Londres.",
-      "date": "2026-09-24T15:05:49.209Z"
     }
   ]
 }
