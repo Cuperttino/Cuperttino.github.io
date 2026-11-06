@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-11-06T13:17:47Z",
+  "updated_at": "2026-11-06T22:27:25Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "La app Salud rediseñada amplía la compatibilidad con nuevos idiomas",
+      "url": "https://www.apple.com/es/newsroom/2026/11/redesigned-health-app-expands-language-support/",
+      "summary": "Apple ha anunciado que la app Salud rediseñada ampliará la compatibilidad con nuevos idiomas para ofrecer información personalizada de salud a millones de usuarios de todo el mundo.",
+      "date": "2026-11-06T19:30:50.968Z"
+    },
     {
       "title": "Apple presenta el revolucionario MacBook Pro con pantalla PROLED XDR",
       "url": "https://www.apple.com/es/newsroom/2026/10/apple-unveils-groundbreaking-macbook-pro-with-proled-xdr-display/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/apple-releases-new-guide-to-help-families-build-healthy-digital-habits/",
       "summary": "Apple ha publicado hoy una nueva guía en colaboración con la American Academy of Pediatrics para ayudar a las familias a crear hábitos digitales saludables.",
       "date": "2026-09-29T17:04:25.200Z"
-    },
-    {
-      "title": "Los nuevos Mac mini y Mac Studio ya están disponibles",
-      "url": "https://www.apple.com/es/newsroom/2026/09/the-new-mac-mini-and-mac-studio-are-available-today/",
-      "summary": "El Mac mini con M6 y M5 Pro y el Mac Studio con M5 Max y M5 Ultra ya están disponibles en las Apple Store, en la web y en la app Apple Store",
-      "date": "2026-09-24T17:47:58.367Z"
     }
   ]
 }
