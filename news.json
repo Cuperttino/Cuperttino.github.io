@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-11-09T14:28:31Z",
+  "updated_at": "2026-11-10T00:54:04Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Apple informa de los resultados del cuarto trimestre",
+      "url": "https://www.apple.com/es/newsroom/2026/11/apple-reports-fourth-quarter-results/",
+      "summary": "Apple ha anunciado los resultados financieros del cuarto trimestre de su año fiscal 2026, cerrado el 26 de septiembre de 2026.",
+      "date": "2026-11-09T14:44:35.382Z"
+    },
     {
       "title": "La app Salud rediseñada amplía la compatibilidad con nuevos idiomas",
       "url": "https://www.apple.com/es/newsroom/2026/11/redesigned-health-app-expands-language-support/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/new-updates-coming-to-apple-creator-studio/",
       "summary": "Apple ha presentado hoy nuevas actualizaciones para Apple Creator Studio, su revolucionaria colección de apps de creatividad y productividad.",
       "date": "2026-09-29T17:05:49.999Z"
-    },
-    {
-      "title": "Apple lanza una nueva guía para ayudar a las familias a desarrollar buenos hábitos digitales",
-      "url": "https://www.apple.com/es/newsroom/2026/09/apple-releases-new-guide-to-help-families-build-healthy-digital-habits/",
-      "summary": "Apple ha publicado hoy una nueva guía en colaboración con la American Academy of Pediatrics para ayudar a las familias a crear hábitos digitales saludables.",
-      "date": "2026-09-29T17:04:25.200Z"
     }
   ]
 }
