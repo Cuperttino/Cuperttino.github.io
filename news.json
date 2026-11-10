@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-11-10T13:50:29Z",
+  "updated_at": "2026-11-10T22:36:04Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Olivia Dean es la Artista del Año 2026 de Apple Music",
+      "url": "https://www.apple.com/es/newsroom/2026/11/olivia-dean-is-apple-musics-artist-of-the-year-for-2026/",
+      "summary": "Apple Music ha nombrado a Olivia Dean Artista del Año 2026, en reconocimiento a su indiscutible salto al estrellato durante el último año.",
+      "date": "2026-11-10T16:16:25.384Z"
+    },
     {
       "title": "Apple informa de los resultados del cuarto trimestre",
       "url": "https://www.apple.com/es/newsroom/2026/11/apple-reports-fourth-quarter-results/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/final-cut-camera-now-supports-variable-aperture-on-iphone-18-pro/",
       "summary": "Final Cut Camera se renueva por completo con un cambio de diseño, compatibilidad con la apertura variable del iPhone 18 Pro y más opciones profesionales con iOS 27.",
       "date": "2026-09-29T17:07:42.028Z"
-    },
-    {
-      "title": "Nuevas actualizaciones llegan a Apple Creator Studio",
-      "url": "https://www.apple.com/es/newsroom/2026/09/new-updates-coming-to-apple-creator-studio/",
-      "summary": "Apple ha presentado hoy nuevas actualizaciones para Apple Creator Studio, su revolucionaria colección de apps de creatividad y productividad.",
-      "date": "2026-09-29T17:05:49.999Z"
     }
   ]
 }
