@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-11-11T13:01:41Z",
+  "updated_at": "2026-11-11T23:45:08Z",
   "source": "https://www.apple.com/es/newsroom/rss-feed.rss",
   "items": [
+    {
+      "title": "Football Manager y otras populares franquicias encabezan la propuesta navideña de Apple Arcade",
+      "url": "https://www.apple.com/es/newsroom/2026/11/football-manager-and-other-hit-franchises-headline-apple-arcades-holiday-lineup/",
+      "summary": "El 3 de diciembre Apple Arcade estrena Football Manager 27 Touch y cuatro nuevos títulos para todos los públicos.",
+      "date": "2026-11-11T14:33:08.371Z"
+    },
     {
       "title": "Olivia Dean es la Artista del Año 2026 de Apple Music",
       "url": "https://www.apple.com/es/newsroom/2026/11/olivia-dean-is-apple-musics-artist-of-the-year-for-2026/",
@@ -115,12 +121,6 @@
       "url": "https://www.apple.com/es/newsroom/2026/09/celebrating-what-holds-us-on-iphone-18-pro/",
       "summary": "Una nueva exposición de fotografía comisariada por Kathy Ryan celebra la evolución del lenguaje de la narración visual y muestra las capacidades del avanzado sistema de cámaras Pro del iPhone 18 Pro.",
       "date": "2026-10-06T13:49:59.223Z"
-    },
-    {
-      "title": "Final Cut Camera ahora es compatible con la apertura variable del iPhone 18 Pro",
-      "url": "https://www.apple.com/es/newsroom/2026/09/final-cut-camera-now-supports-variable-aperture-on-iphone-18-pro/",
-      "summary": "Final Cut Camera se renueva por completo con un cambio de diseño, compatibilidad con la apertura variable del iPhone 18 Pro y más opciones profesionales con iOS 27.",
-      "date": "2026-09-29T17:07:42.028Z"
     }
   ]
 }
