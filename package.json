@@ -1,0 +1,14 @@
+{
+  "name": "pomar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pomar: plataforma independiente para aficionados a Apple",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server/index.js",
+    "build:static": "node scripts/build-static.mjs",
+    "test": "node --disable-warning=ExperimentalWarning --test test/core.test.js"
+  }
+}

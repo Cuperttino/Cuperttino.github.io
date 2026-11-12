@@ -1,58 +1,54 @@
-name: Update Apple RSS and publish Cupertino
+name: Publicar Pomar
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "17 * * * *"   # cada hora: refresca las noticias
   push:
     branches:
       - main
-    paths:
-      - ".github/workflows/update-and-deploy.yml"
-      - "scripts/fetch_apple_rss.py"
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: cupertino-rss-update
+  group: pomar-pages
   cancel-in-progress: false
 
 jobs:
-  refresh-and-publish:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Check out the site
+      - name: Descargar el código
         uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
         with:
-          persist-credentials: true
+          node-version: 22
 
-      - name: Fetch Apple Newsroom RSS
-        run: python scripts/fetch_apple_rss.py
+      - name: Pruebas
+        run: npm test
 
-      - name: Commit refreshed news
-        run: |
-          if git diff --quiet -- news.json; then
-            echo "RSS content has not changed."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news.json
-          git commit -m "chore: refresh Apple Newsroom feed"
-          git push
+      - name: Construir el sitio estático
+        run: node scripts/build-static.mjs
 
-      - name: Prepare GitHub Pages
+      - name: Descargar noticias de los feeds
+        run: node --disable-warning=ExperimentalWarning scripts/fetch-news.mjs
+
+      - name: Preparar GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload site for publication
+      - name: Subir el sitio
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
 
-      - name: Deploy to GitHub Pages
+      - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4
-

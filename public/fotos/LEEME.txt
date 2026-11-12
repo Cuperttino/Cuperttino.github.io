@@ -1,0 +1,11 @@
+FOTOS PROPIAS
+=============
+Para usar tus propias fotos en la galería de un producto, crea aquí una carpeta
+con el identificador del producto (el que aparece en la dirección de su ficha)
+y copia dentro las imágenes (.jpg, .png, .webp o .avif).
+
+Ejemplo:  public/fotos/iphone-17/01-frontal.jpg
+          public/fotos/iphone-17/02-trasera.jpg
+
+Las fotos de esta carpeta tienen prioridad sobre las de Wikimedia Commons y se
+muestran en orden alfabético. Usa solo imágenes que tengas derecho a utilizar.
