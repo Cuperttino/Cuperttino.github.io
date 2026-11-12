@@ -6,7 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { PUBLIC_DIR, DATA_DIR } from './config.js';
-import { pickPhotos, photoQuery, commonsUrl } from './photos-core.js';
+import { pickPhotos, photoQuery, findPhotos } from './photos-core.js';
 export { pickPhotos, photoQuery };
 
 const LOCAL_DIR = path.join(PUBLIC_DIR, 'fotos');
@@ -23,15 +23,13 @@ export function localPhotos(id) {
   } catch { return []; }
 }
 
-async function fetchCommons(query) {
-  const url = commonsUrl(query);
-  const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 9000);
-  try {
-    const res = await fetch(url, { signal: ctrl.signal, headers: { 'User-Agent': 'Pomar/1.0 (galeria de productos; uso personal)', Accept: 'application/json' } });
+async function fetchCommons(product) {
+  const get = async (url) => {
+    const res = await fetch(url, { signal: AbortSignal.timeout(9000), headers: { 'User-Agent': 'Pomar/1.0 (galeria de productos; uso personal)', Accept: 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return pickPhotos(data.query?.pages, query);
-  } finally { clearTimeout(timer); }
+    return res.json();
+  };
+  return (await findPhotos(product, get)).photos;
 }
 
 export async function getPhotos(product) {
@@ -40,7 +38,7 @@ export async function getPhotos(product) {
   const hit = cache[product.id];
   if (hit && Date.now() - hit.at < (hit.photos.length ? 7 * DAY : DAY)) return { photos: hit.photos, source: hit.photos.length ? 'commons' : 'none' };
   if (!pending.has(product.id)) {
-    pending.set(product.id, fetchCommons(photoQuery(product)).then((photos) => {
+    pending.set(product.id, fetchCommons(product).then((photos) => {
       cache[product.id] = { at: Date.now(), photos };
       try { fs.writeFileSync(CACHE_FILE, JSON.stringify(cache)); } catch { /* caché opcional */ }
       return photos;

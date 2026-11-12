@@ -8,7 +8,7 @@ import { OS, UPCOMING, TIMELINE, SILICON, IPHONE_DESIGN, TIPS, TRIVIA, TECH } fr
 import { compare } from './local/compare.js';
 import { advise } from './local/advisor.js';
 import { search, norm } from './local/search.js';
-import { pickPhotos, photoQuery, commonsUrl } from './local/photos-core.js';
+import { findPhotos } from './local/photos-core.js';
 
 const fail = (status, message) => { const e = new Error(message); e.status = status; throw e; };
 const store = {
@@ -20,6 +20,8 @@ const str = (v, max) => (v == null || v === '' ? null : String(v).trim().slice(0
 
 let newsPromise;
 const loadNews = () => (newsPromise ??= fetch('/news.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status)))).catch(() => { newsPromise = null; return { items: [], sources: [], fetchedAt: null, offline: true }; }));
+let commons;
+const commonsManifest = () => (commons ??= fetch('/fotos/commons.json').then((r) => (r.ok ? r.json() : {})).then((d) => d.products || {}).catch(() => ({})));
 let manifest;
 const localPhotos = () => (manifest ??= fetch('/fotos/index.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})));
 
@@ -27,13 +29,11 @@ async function photos(p) {
   const own = (await localPhotos())[p.id] || [];
   const folder = `public/fotos/${p.id}/`;
   if (own.length) return { photos: own.map((f) => ({ src: `/fotos/${p.id}/${encodeURIComponent(f)}`, full: `/fotos/${p.id}/${encodeURIComponent(f)}`, page: null, title: f.replace(/\.[a-z0-9]+$/i, ''), author: null, license: null, local: true })), source: 'local', folder };
-  const key = `pomar:fotos:${p.id}`;
-  try { const hit = JSON.parse(sessionStorage.getItem(key)); if (hit) return { photos: hit, source: hit.length ? 'commons' : 'none', folder }; } catch { /* sin caché */ }
+  // Fotos de Commons ya localizadas al construir el sitio (scripts/fetch-photos.mjs).
+  const built = (await commonsManifest())[p.id];
+  if (built) return { photos: built, source: built.length ? 'commons' : 'none', folder };
   try {
-    const res = await fetch(commonsUrl(photoQuery(p)));
-    if (!res.ok) throw new Error(res.status);
-    const list = pickPhotos((await res.json()).query?.pages, photoQuery(p));
-    try { sessionStorage.setItem(key, JSON.stringify(list)); } catch { /* caché opcional */ }
+    const { photos: list } = await findPhotos(p, (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status)))));
     return { photos: list, source: list.length ? 'commons' : 'none', folder };
   } catch { return { photos: [], source: 'none', error: 'No se pudo conectar con Wikimedia Commons.', folder }; }
 }

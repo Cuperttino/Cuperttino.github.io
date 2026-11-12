@@ -41,6 +41,11 @@ jobs:
       - name: Descargar noticias de los feeds
         run: node --disable-warning=ExperimentalWarning scripts/fetch-news.mjs
 
+      - name: Localizar fotos en Wikimedia Commons
+        run: node scripts/fetch-photos.mjs
+        env:
+          PHOTOS_FORCE: ${{ github.event_name == 'push' && '1' || '0' }}
+
       - name: Preparar GitHub Pages
         uses: actions/configure-pages@v5
 

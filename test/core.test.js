@@ -77,4 +77,6 @@ test('la galería filtra por licencia, tamaño y variante de modelo', () => {
   assert.equal(out[0].license, 'CC BY-SA 4.0');
   assert.equal(pickPhotos(pages, 'iPhone 17 Pro Max').length, 1);
   assert.equal(photoQuery(byId.get('macbook-air-m4')), 'MacBook Air M4');
+  assert.equal(pickPhotos({ 1: { title: 'File:IPhone17 rear.jpg', imageinfo: [info()] }, 2: { title: 'File:Orange phone.jpg', imageinfo: [info()] } }, 'iPhone 17').length, 1);
+  assert.equal(pickPhotos({ 2: { title: 'File:Orange phone.jpg', imageinfo: [info()] } }, 'iPhone 17', 8, false).length, 1);
 });
