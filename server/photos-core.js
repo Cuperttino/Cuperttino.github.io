@@ -22,7 +22,7 @@ const CATEGORIES = {
   'apple-watch-ultra-3': ['Apple Watch Ultra 3'], 'apple-watch-ultra-4': ['Apple Watch Ultra 4'], 'vision-pro-m5': ['Apple Vision Pro (M5)'], 'homeview': ['Apple HomeView', 'HomeView'],
   'apple-tv-4k-2026': ['Apple TV 4K (4th generation)', 'Apple TV 4K (2026)'], 'apple-pencil-pro': ['Apple Pencil Pro'], 'macbook-pro-oled': ['MacBook Pro (OLED)'],
 };
-const QUERIES = { 'macintosh-128k': 'Macintosh 128K', 'imac-g3': 'iMac G3' };
+const QUERIES = { 'macintosh-128k': 'Macintosh 128K', 'imac-g3': 'iMac G3', 'iphone-2007': 'iPhone 1st generation', 'ipad-2010': 'iPad 1st generation' };
 export const photoQuery = (p) => QUERIES[p.id] || p.name.replace(/[()]/g, ' ').replace(/"/g, '').replace(/\s+/g, ' ').trim();
 
 // strict = true (búsqueda de texto): el título debe contener el nombre del producto y ninguna otra variante.
