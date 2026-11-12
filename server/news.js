@@ -6,12 +6,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { config, DATA_DIR } from './config.js';
 
+// Fuentes en español. Apple Newsroom (edición de España) es la única oficial.
 export const SOURCES = [
   { id: 'apple', name: 'Apple Newsroom', official: true, url: 'https://www.apple.com/es/newsroom/rss-feed.rss', site: 'https://www.apple.com/es/newsroom/' },
-  { id: 'macrumors', name: 'MacRumors', url: 'https://feeds.macrumors.com/MacRumors-All', site: 'https://www.macrumors.com/' },
-  { id: '9to5mac', name: '9to5Mac', url: 'https://9to5mac.com/feed/', site: 'https://9to5mac.com/' },
-  { id: 'appleinsider', name: 'AppleInsider', url: 'https://appleinsider.com/rss/news/', site: 'https://appleinsider.com/' },
-  { id: 'macworld', name: 'Macworld', url: 'https://www.macworld.com/feed', site: 'https://www.macworld.com/' },
+  { id: 'applesfera', name: 'Applesfera', url: 'https://www.applesfera.com/index.xml', site: 'https://www.applesfera.com/' },
+  { id: 'actualidadiphone', name: 'Actualidad iPhone', url: 'https://www.actualidadiphone.com/feed/', site: 'https://www.actualidadiphone.com/' },
+  { id: 'soydemac', name: 'Soy de Mac', url: 'https://www.soydemac.com/feed/', site: 'https://www.soydemac.com/' },
+  { id: 'ipadizate', name: 'iPadizate', url: 'https://www.ipadizate.com/feed', site: 'https://www.ipadizate.com/' },
+  { id: 'lamanzanamordida', name: 'La Manzana Mordida', url: 'https://lamanzanamordida.net/feed/', site: 'https://lamanzanamordida.net/' },
+  { id: 'hipertextual', name: 'Hipertextual', url: 'https://hipertextual.com/tag/apple/feed', site: 'https://hipertextual.com/tag/apple' },
+  { id: 'isenacode', name: 'iSenaCode', url: 'https://isenacode.com/feed/', site: 'https://isenacode.com/' },
 ];
 
 const CACHE_FILE = path.join(DATA_DIR, 'news-cache.json');
@@ -70,16 +74,17 @@ export function parseFeed(xml) {
 
 // ---------- Clasificación ----------
 // Tipo: oficial (solo Apple Newsroom), rumor, opinión/análisis o noticia.
-const RUMOR = /\b(rumou?r(ed|s)?|leak(ed|s)?|reportedly|allegedly|said to|tipped|expected to|could (launch|get|feature|arrive)|might|may (launch|get|feature)|gurman|kuo|supply chain|analyst|prototype|sources? (say|claim)|planning|in the works|roadmap)\b/i;
-const OPINION = /\b(review(ed|s)?|hands[- ]on|opinion|editorial|vs\.?|worth (it|buying)|should you|why (i|you|apple)|here'?s why|i (tried|spent|used)|best |buyer'?s guide|tested)\b/i;
+// Los patrones cubren español (fuentes actuales) e inglés (por si se añaden fuentes en ese idioma).
+const RUMOR = /\b(rumou?r(ed|s|es)?|rumorea|filtraci[oó]n(es)?|filtrad[oa]s?|se filtra|leak(ed|s)?|reportedly|allegedly|gurman|kuo|podr[ií]a[n]?|llegar[ií]a[n]?|tendr[ií]a[n]?|estar[ií]a[n]?|ser[ií]a[n]?|apunta[n]? a|se espera|esperamos|seg[uú]n (un|una|el|la|los|las|nuevos?|varios)|prototipo|cadena de suministro|analista|planea|prepara|trabaja en|expected to|might|supply chain|in the works)\b/i;
+const OPINION = /\b(an[aá]lisis|review|opini[oó]n|probamos|he probado|hemos probado|tras (un|una|dos|tres|\d+) (d[ií]as?|semanas?|mes(es)?)|comparativa|merece la pena|vale la pena|por qu[eé]|mi experiencia|gu[ií]a de compra|cu[aá]l comprar|mejores|vs\.?|frente a|hands[- ]on|worth (it|buying)|should you)\b/i;
 const TOPICS = [
   ['iPhone', /\biphone|ios\b/i], ['iPad', /\bipad(os)?\b/i], ['Mac', /\bmac(book|os| mini| studio| pro)?\b|imac/i],
   ['Apple Watch', /\bapple watch|watchos\b/i], ['AirPods', /\bairpods|beats\b/i], ['Vision', /\bvision ?(pro|os)\b/i],
   ['Hogar', /\bhomepod|apple tv|tvos|homekit|homeview\b/i],
-  ['Software', /\b(i|ipad|mac|watch|tv|vision)os\b|\bbeta\b|\bupdate\b|\bapp store\b/i],
+  ['Software', /\b(i|ipad|mac|watch|tv|vision)os\b|\bbeta\b|\bactualiza(ci[oó]n|r)\b|\bupdate\b|\bapp store\b/i],
   ['Servicios', /\bapple (tv\+|music|arcade|pay|card|fitness|news)\b|icloud/i],
-  ['Ofertas', /\b(deals?|black friday|cyber monday|discount|sale|price drop|lowest price|\$\d+ off)\b/i],
-  ['Empresa', /\b(earnings|lawsuit|antitrust|ceo|ternus|cook|shares|revenue|regulat|court|eu\b|doj)\b/i],
+  ['Ofertas', /\b(ofertas?|descuentos?|rebajad[oa]s?|rebajas?|chollo|precio m[ií]nimo|black friday|cyber monday|deals?)\b/i],
+  ['Empresa', /\b(resultados|demanda|juicio|tribunal|antimonopolio|ceo|ternus|cook|acciones|ingresos|bruselas|comisi[oó]n europea|regulaci[oó]n|earnings|lawsuit|antitrust)\b/i],
 ];
 
 export function classify(item, source) {

@@ -39,7 +39,7 @@ const PAGES = {
 };
 for (const p of PRODUCTS) PAGES[`/producto/${p.id}`] = [`${p.name} (${p.year}): ficha, fotos y opinión · Pomar`, `${p.name}: ${[p.chip, p.display].filter(Boolean).join(' · ')}. ${p.buy?.text || ''}`.slice(0, 180)];
 const template = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
-const CSP = "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://commons.wikimedia.org; base-uri 'self'; form-action 'self'";
+const CSP = "default-src 'self'; img-src 'self' data: https://www.apple.com https://*.wikimedia.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://commons.wikimedia.org; base-uri 'self'; form-action 'self'";
 const page = (route, [title, desc]) => template.replace('<!--META-->', `<title>${esc(title)}</title>\n  <meta name="description" content="${esc(desc)}">\n  <link rel="canonical" href="${esc(SITE + route)}">\n  <meta property="og:title" content="${esc(title)}">\n  <meta property="og:description" content="${esc(desc)}">\n  <meta property="og:type" content="website">\n  <meta http-equiv="Content-Security-Policy" content="${CSP}">`);
 // GitHub Pages sirve /ruta desde ruta.html sin redirecciones (así se conservan los parámetros ?ids=…).
 for (const [route, meta] of Object.entries(PAGES)) {

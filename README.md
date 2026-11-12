@@ -19,9 +19,9 @@ Abre <http://localhost:4173>. Para desarrollo con recarga del servidor: `npm run
 
 | Sección | Cómo funciona |
 | --- | --- |
-| **Actualidad** | Feeds RSS/Atom reales de Apple Newsroom (edición de España), MacRumors, 9to5Mac, AppleInsider y Macworld. Se actualizan solos cada 15 min, con caché en disco y aviso si una fuente falla. Solo titular, extracto, fecha y enlace al original (sin imágenes de los medios). Cada titular se clasifica como oficial, rumor, análisis o noticia. |
+| **Actualidad** | Feeds RSS/Atom reales en español: Apple Newsroom (edición de España) y medios especializados (Applesfera, Actualidad iPhone, Soy de Mac y otros; lista en `server/news.js`). Se actualizan solos cada 15 min, con caché en disco y aviso si una fuente falla. Solo titular, extracto, fecha y enlace al original (sin imágenes de los medios). Cada titular se clasifica como oficial, rumor, análisis o noticia. |
 | **Enciclopedia** | Fichas en `server/data/`. Precios de lanzamiento en EE. UU. Los productos de otoño de 2026 llevan «ficha parcial»: solo datos contrastados; lo demás aparece como «Sin dato verificado». |
-| **Fotos** | Galería por producto. Busca fotografías con licencia libre en Wikimedia Commons (con autor y licencia) y las guarda en caché. Tus propias fotos en `public/fotos/<id>/` tienen prioridad. |
+| **Fotos** | Galería por producto con las imágenes oficiales de la nota de prensa de Apple Newsroom (mapa en `server/data/apple-press.js`; el propietario declara tener permiso de Apple). Si no hay nota, fotos libres de Wikimedia Commons. Tus propias fotos en `public/fotos/<id>/` tienen prioridad. |
 | **Comparador** | De 2 a 4 productos. Tabla + veredicto de un motor de reglas (`server/compare.js`) que no favorece al más caro ni al más nuevo. |
 | **Mi ecosistema** | Cuentas con contraseña cifrada (scrypt), sesión en cookie HttpOnly, dispositivos guardados en SQLite (`data/pomar.db`). |
 | **Asesor** | `server/advisor.js`: prioridad, motivo, alternativa, diferencias, beneficio y «ahora o esperar» por dispositivo. Sabe decir «no lo cambies». |
@@ -74,7 +74,6 @@ data/     se crea al arrancar: base de datos y cachés (no se versiona)
 
 ## Limitaciones conocidas
 
-- Los titulares se muestran en el idioma de cada fuente: Apple Newsroom en español, el resto en inglés.
 - La clasificación de rumores es automática (por el lenguaje del titular) y puede fallar.
 - La búsqueda de fotos en Commons es automática: puede no encontrar nada para productos muy recientes, o colar alguna imagen imprecisa. Corrígelo con fotos propias.
 - No hay «precio actual»: no existe una fuente fiable y gratuita que lo dé por país.

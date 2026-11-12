@@ -7,7 +7,7 @@ export default async function news({ el, query }) {
   el.innerHTML = html`
   <div class="wrap">
     <header class="page-head"><span class="eyebrow" data-reveal>Actualidad</span><h1 class="h1" data-split>Noticias, rumores y análisis</h1>
-      <p class="lede" data-reveal style="--d:300ms">Titulares reales obtenidos de los feeds públicos de cada medio, con su fecha y un enlace al artículo original. Los rumores van siempre marcados como no oficiales. Los titulares se muestran en el idioma de la fuente.</p></header>
+      <p class="lede" data-reveal style="--d:300ms">Titulares reales obtenidos de los feeds públicos de cada medio, con su fecha y un enlace al artículo original. Los rumores van siempre marcados como no oficiales.</p></header>
     <div class="toolbar" data-reveal>
       <div class="field">${icon('search')}<input class="input" id="news-q" type="search" placeholder="Buscar en los titulares…" value="${state.q}" aria-label="Buscar noticias"></div>
       <select class="select" id="news-source" style="max-width:220px" aria-label="Filtrar por fuente"><option value="">Todas las fuentes</option></select>

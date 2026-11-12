@@ -57,7 +57,7 @@ export default async function product({ el, params }) {
 
     <section class="section--tight" style="padding-bottom:64px"><h2 class="h3" style="margin-bottom:10px">Fuentes de esta ficha</h2>
       <ul class="small">${p.sources.map((s) => html`<li style="padding:4px 0"><a class="link" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label} ${icon('external')}</a></li>`)}</ul>
-      <p class="small muted" style="margin-top:10px;max-width:70ch">Las fotografías proceden de Wikimedia Commons, con licencia libre y atribución a su autor bajo cada imagen, o de la carpeta de fotos propias de esta instalación. No se usan las imágenes de prensa de Apple porque no hay licencia para redistribuirlas.</p>
+      <p class="small muted" style="margin-top:10px;max-width:70ch">Las imágenes proceden de Apple Newsroom (© Apple, enlazadas a su nota de prensa) y, cuando no hay nota disponible, de Wikimedia Commons con licencia libre y atribución a su autor.</p>
     </section>
   </div>`;
 

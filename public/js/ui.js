@@ -32,23 +32,23 @@ export async function mountGallery(el, product, { thumbs = true } = {}) {
   const photos = data.photos;
   if (!photos.length) {
     el.innerHTML = html`<div class="gallery__empty"><p class="h3">${data.error ? 'No se pudieron cargar las fotos' : 'Todavía no hay fotos de este producto'}</p>
-      <p>${data.error ? `${data.error} ` : 'No hemos encontrado fotografías con licencia libre en Wikimedia Commons. '}Puedes añadir las tuyas copiándolas en la carpeta <code>${data.folder}</code>.</p></div>`;
+      <p>${data.error ? `${data.error} ` : 'No hemos encontrado imágenes de este producto. '}Puedes añadir las tuyas copiándolas en la carpeta <code>${data.folder}</code>.</p></div>`;
     return { count: 0 };
   }
   let i = 0;
-  const credit = (p) => (p.local ? html`<span>Foto propia</span>` : html`<span>Foto: ${p.author} · ${p.license} · <a href="${p.page}" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></span>`);
+  const credit = (p) => (p.local ? html`<span>Foto propia</span>` : p.apple ? html`<span>Imagen: Apple · <a href="${p.page}" target="_blank" rel="noopener noreferrer">Apple Newsroom</a></span>` : html`<span>Foto: ${p.author} · ${p.license} · <a href="${p.page}" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></span>`);
   el.innerHTML = html`<div class="gallery__main" tabindex="0" role="group" aria-roledescription="galería" aria-label="Fotos de ${product.name}. Usa las flechas para cambiar de imagen.">
       <div class="gallery__frames"></div>
       ${photos.length > 1 ? html`<button class="gallery__nav gallery__nav--prev" type="button" aria-label="Foto anterior">${icon('arrow')}</button><button class="gallery__nav gallery__nav--next" type="button" aria-label="Foto siguiente">${icon('arrow')}</button><span class="gallery__count glass"></span>` : ''}
       <button class="gallery__zoom glass" type="button" aria-label="Ampliar foto">${icon('plus')}</button>
     </div>
     <p class="gallery__credit"></p>
-    ${thumbs && photos.length > 1 ? html`<div class="gallery__thumbs" role="group" aria-label="Miniaturas">${photos.map((p, n) => html`<button type="button" data-n="${n}" aria-label="Foto ${n + 1} de ${photos.length}"><img src="${p.src}" alt="" loading="lazy" decoding="async"></button>`)}</div>` : ''}
+    ${thumbs && photos.length > 1 ? html`<div class="gallery__thumbs" role="group" aria-label="Miniaturas">${photos.map((p, n) => html`<button type="button" data-n="${n}" aria-label="Foto ${n + 1} de ${photos.length}"><img src="${p.src}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></button>`)}</div>` : ''}
     <dialog class="lightbox" aria-label="Foto ampliada de ${product.name}"><button class="lightbox__close tool glass" type="button" aria-label="Cerrar">${icon('close')}</button><img alt=""></dialog>`;
   const frames = el.querySelector('.gallery__frames'), main = el.querySelector('.gallery__main'), box = el.querySelector('.lightbox');
   function show(n, first = false) {
     i = (n + photos.length) % photos.length; const p = photos[i];
-    const img = new Image(); img.alt = `${product.name}: ${p.title}`; img.decoding = 'async'; img.className = 'gallery__img';
+    const img = new Image(); img.referrerPolicy = 'no-referrer'; img.alt = `${product.name}: ${p.title}`; img.decoding = 'async'; img.className = 'gallery__img';
     img.onload = img.onerror = () => { frames.appendChild(img); requestAnimationFrame(() => img.classList.add('is-in')); [...frames.children].slice(0, -1).forEach((old) => { old.classList.add('is-out'); setTimeout(() => old.remove(), 700); }); };
     img.src = p.src; if (first) img.fetchPriority = 'high';
     el.querySelector('.gallery__credit').innerHTML = credit(p);
@@ -62,7 +62,7 @@ export async function mountGallery(el, product, { thumbs = true } = {}) {
   let x0 = null;
   main.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
   main.addEventListener('pointerup', (e) => { if (x0 != null && Math.abs(e.clientX - x0) > 44 && photos.length > 1) show(i + (e.clientX < x0 ? 1 : -1)); x0 = null; });
-  el.querySelector('.gallery__zoom').addEventListener('click', () => { const im = box.querySelector('img'); im.src = photos[i].full; im.alt = `${product.name}: ${photos[i].title}`; box.showModal(); });
+  el.querySelector('.gallery__zoom').addEventListener('click', () => { const im = box.querySelector('img'); im.referrerPolicy = 'no-referrer'; im.src = photos[i].full; im.alt = `${product.name}: ${photos[i].title}`; box.showModal(); });
   box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('.lightbox__close')) box.close(); });
   show(0, true);
   return { count: photos.length, source: data.source };

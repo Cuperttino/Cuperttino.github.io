@@ -31,7 +31,7 @@ async function photos(p) {
   if (own.length) return { photos: own.map((f) => ({ src: `/fotos/${p.id}/${encodeURIComponent(f)}`, full: `/fotos/${p.id}/${encodeURIComponent(f)}`, page: null, title: f.replace(/\.[a-z0-9]+$/i, ''), author: null, license: null, local: true })), source: 'local', folder };
   // Fotos de Commons ya localizadas al construir el sitio (scripts/fetch-photos.mjs).
   const built = (await commonsManifest())[p.id];
-  if (built) return { photos: built, source: built.length ? 'commons' : 'none', folder };
+  if (built) return { photos: built, source: built.length ? 'web' : 'none', folder };
   try {
     const { photos: list } = await findPhotos(p, (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status)))));
     return { photos: list, source: list.length ? 'commons' : 'none', folder };

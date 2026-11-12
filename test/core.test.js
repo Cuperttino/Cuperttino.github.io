@@ -33,6 +33,9 @@ test('classify distingue oficial, rumor, opinión y noticia', () => {
   assert.equal(classify(it('iPhone 18 rumored to get larger battery'), {}).kind, 'rumor');
   assert.equal(classify(it('iPad mini 8 review: hands-on'), {}).kind, 'opinion');
   assert.equal(classify(it('watchOS 27.3 adds three features'), {}).kind, 'noticia');
+  assert.equal(classify(it('El iPhone 18 tendría una batería mayor, según una filtración'), {}).kind, 'rumor');
+  assert.equal(classify(it('Análisis del iPad mini 8: tras dos semanas de uso'), {}).kind, 'opinion');
+  assert.equal(classify(it('Apple lanza iOS 27.3 con tres novedades'), {}).kind, 'noticia');
   assert.ok(classify(it('watchOS 27.3 adds three features'), {}).topics.includes('Apple Watch'));
 });
 test('el catálogo es coherente', () => {

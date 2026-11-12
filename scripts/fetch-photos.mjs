@@ -19,18 +19,23 @@ const get = async (url) => {
 
 let prev = null;
 if (!FORCE) { try { prev = await fetch(`${SITE}/fotos/commons.json`, { signal: AbortSignal.timeout(8000) }).then((r) => (r.ok ? r.json() : null)); } catch { /* primera vez */ } }
-const fresh = prev && prev.version === 2 && Date.now() - prev.at < 7 * 86_400_000;
+const fresh = prev && prev.version === 3 && Date.now() - prev.at < 7 * 86_400_000;
+const pages = new Map();
+const getText = async (url) => {
+  if (!pages.has(url)) pages.set(url, fetch(url, { signal: AbortSignal.timeout(20000), headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Pomar/1.0; +https://cuperttino.github.io)', Accept: 'text/html' } }).then((r) => (r.ok ? r.text() : Promise.reject(new Error(`HTTP ${r.status}`)))));
+  return pages.get(url);
+};
 const products = {};
 let withPhotos = 0, errors = 0;
 for (const p of PRODUCTS) {
   if (fresh && prev.products?.[p.id]?.length) { products[p.id] = prev.products[p.id]; withPhotos++; continue; }
   try {
-    const { photos, via } = await findPhotos(p, get);
+    const { photos, via } = await findPhotos(p, get, getText);
     products[p.id] = photos; if (photos.length) withPhotos++;
     console.log(`${String(photos.length).padStart(2)} fotos · ${p.id} · ${via}${photos[0] ? ` · ${photos[0].title}` : ''}`);
   } catch (err) { errors++; console.log(` ! error · ${p.id} · ${err.message}`); if (prev?.products?.[p.id]) products[p.id] = prev.products[p.id]; }
   await sleep(250);
 }
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, JSON.stringify({ version: 2, at: fresh ? prev.at : Date.now(), products }));
+fs.writeFileSync(OUT, JSON.stringify({ version: 3, at: fresh ? prev.at : Date.now(), products }));
 console.log(`Fotos: ${withPhotos} de ${PRODUCTS.length} productos con galería. Errores: ${errors}.`);

@@ -1,4 +1,5 @@
 // Lógica pura de la galería (sin dependencias de Node): se usa en el servidor y en la versión estática.
+import { APPLE_PRESS } from './data/apple-press.js';
 const norm = (s) => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 const stripHtml = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/\s+/g, ' ').trim();
 // Variantes de modelo: si no están en el nombre buscado, no deben aparecer en el título de la foto
@@ -59,8 +60,33 @@ const apiUrl = (params) => { const url = new URL('https://commons.wikimedia.org/
 export const commonsCategoryUrl = (query) => apiUrl({ generator: 'categorymembers', gcmtitle: `Category:${query}`, gcmtype: 'file', gcmlimit: '40' });
 export const commonsUrl = (query) => apiUrl({ generator: 'search', gsrnamespace: '6', gsrsearch: `${query} filetype:bitmap`, gsrlimit: '40' });
 
+// ---------- Imágenes oficiales de Apple Newsroom ----------
+// El propietario del sitio declara tener permiso de Apple para usarlas. Se enlazan desde apple.com (no se copian)
+// y se muestran con crédito a Apple y enlace a la nota de prensa.
+const APPLE = 'https://www.apple.com/newsroom/';
+export const applePressUrl = (product) => (APPLE_PRESS[product.id] ? APPLE + APPLE_PRESS[product.id][0] : null);
+export function applePhotosFromHtml(html, product, max = 8) {
+  const [slug, only] = APPLE_PRESS[product.id] || [];
+  if (!slug) return [];
+  const filter = only ? new RegExp(only, 'i') : null;
+  const seen = new Set(), out = [];
+  for (const m of String(html).matchAll(/\/newsroom\/images\/([^"'\s,)<>]+?\.(?:jpg|png))\.large\.jpg/g)) {
+    const base = m[1], name = base.split('/').pop();
+    if (seen.has(base)) continue; seen.add(base);
+    if (/shot-on|photo-taken|taken-with|selfie|sample|-photo-|portrait-mode/i.test(name) || (filter && !filter.test(name))) continue;
+    const title = name.replace(/\.(jpg|png)$/i, '').replace(/_(big|inline|Full-Bleed-Image|big_carousel)$/i, '').replace(/[-_]\d{6,8}$/, '').replace(/^Apple[-_]/i, '').replace(/[-_]+/g, ' ');
+    out.push({ src: `${APPLE}images/${base}.large_2x.jpg`, full: `${APPLE}images/${base}.large_2x.jpg`, page: APPLE + slug, title, author: 'Apple', license: 'Apple Newsroom', local: false, apple: true });
+    if (out.length >= max) break;
+  }
+  return out;
+}
+
 // Busca primero en la categoría del producto y, si no hay nada, por texto. `get` recibe una URL y devuelve el JSON.
-export async function findPhotos(product, get) {
+export async function findPhotos(product, get, getText) {
+  const press = applePressUrl(product);
+  if (press && getText) {
+    try { const list = applePhotosFromHtml(await getText(press), product); if (list.length) return { photos: list, via: 'Apple Newsroom' }; } catch { /* se intenta con Commons */ }
+  }
   const query = photoQuery(product);
   const names = [...new Set([...(CATEGORIES[product.id] || []), query])];
   for (const name of names) {

@@ -29,14 +29,19 @@ async function fetchCommons(product) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   };
-  return (await findPhotos(product, get)).photos;
+  const getText = async (url) => {
+    const res = await fetch(url, { signal: AbortSignal.timeout(12000), headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Pomar/1.0)', Accept: 'text/html' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.text();
+  };
+  return (await findPhotos(product, get, getText)).photos;
 }
 
 export async function getPhotos(product) {
   const local = localPhotos(product.id);
   if (local.length) return { photos: local, source: 'local' };
   const hit = cache[product.id];
-  if (hit && Date.now() - hit.at < (hit.photos.length ? 7 * DAY : DAY)) return { photos: hit.photos, source: hit.photos.length ? 'commons' : 'none' };
+  if (hit && Date.now() - hit.at < (hit.photos.length ? 7 * DAY : DAY)) return { photos: hit.photos, source: hit.photos.length ? 'web' : 'none' };
   if (!pending.has(product.id)) {
     pending.set(product.id, fetchCommons(product).then((photos) => {
       cache[product.id] = { at: Date.now(), photos };
