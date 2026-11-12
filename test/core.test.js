@@ -1,7 +1,7 @@
 // Pruebas básicas: node --test test/
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFeed, classify } from '../server/news.js';
+import { parseFeed, classify, isRelevant } from '../server/news.js';
 import { PRODUCTS, byId } from '../server/data/products.js';
 import { compare } from '../server/compare.js';
 import { advise } from '../server/advisor.js';
@@ -36,6 +36,8 @@ test('classify distingue oficial, rumor, opinión y noticia', () => {
   assert.equal(classify(it('El iPhone 18 tendría una batería mayor, según una filtración'), {}).kind, 'rumor');
   assert.equal(classify(it('Análisis del iPad mini 8: tras dos semanas de uso'), {}).kind, 'opinion');
   assert.equal(classify(it('Apple lanza iOS 27.3 con tres novedades'), {}).kind, 'noticia');
+  assert.equal(isRelevant(it('Lidl lanza unas botas impermeables por 19,99 €'), {}), false);
+  assert.equal(isRelevant(it('El nuevo MacBook Pro llega a las tiendas'), {}), true);
   assert.ok(classify(it('watchOS 27.3 adds three features'), {}).topics.includes('Apple Watch'));
 });
 test('el catálogo es coherente', () => {

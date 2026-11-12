@@ -74,7 +74,7 @@ export function parseFeed(xml) {
 // ---------- Clasificación ----------
 // Tipo: oficial (solo Apple Newsroom), rumor, opinión/análisis o noticia.
 // Los patrones cubren español (fuentes actuales) e inglés (por si se añaden fuentes en ese idioma).
-const RUMOR = /\b(rumou?r(ed|s|es)?|rumorea|filtraci[oó]n(es)?|filtrad[oa]s?|se filtra|leak(ed|s)?|reportedly|allegedly|gurman|kuo|podr[ií]a[n]?|llegar[ií]a[n]?|tendr[ií]a[n]?|estar[ií]a[n]?|ser[ií]a[n]?|apunta[n]? a|se espera|esperamos|seg[uú]n (un|una|el|la|los|las|nuevos?|varios)|prototipo|cadena de suministro|analista|planea|prepara|trabaja en|expected to|might|supply chain|in the works)\b/i;
+const RUMOR = /\b(rumou?r(ed|s|es)?|rumorea|filtraci[oó]n(es)?|filtrad[oa]s?|se filtra|leak(ed|s)?|reportedly|allegedly|gurman|kuo|podr[ií]a[n]?|llegar[ií]a[n]?|tendr[ií]a[n]?|estar[ií]a[n]?|ser[ií]a[n]?|apunta[n]? a|se espera|esperamos|seg[uú]n (un|una|el|la|los|las|nuevos?|varios)|posibles?|prototipo|cadena de suministro|analista|planea|prepara|trabaja en|expected to|might|supply chain|in the works)\b/i;
 const OPINION = /\b(an[aá]lisis|review|opini[oó]n|probamos|he probado|hemos probado|tras (un|una|dos|tres|\d+) (d[ií]as?|semanas?|mes(es)?)|comparativa|merece la pena|vale la pena|por qu[eé]|mi experiencia|gu[ií]a de compra|cu[aá]l comprar|mejores|vs\.?|frente a|hands[- ]on|worth (it|buying)|should you)\b/i;
 const TOPICS = [
   ['iPhone', /\biphone|ios\b/i], ['iPad', /\bipad(os)?\b/i], ['Mac', /\bmac(book|os| mini| studio| pro)?\b|imac/i],
@@ -85,6 +85,10 @@ const TOPICS = [
   ['Ofertas', /\b(ofertas?|descuentos?|rebajad[oa]s?|rebajas?|chollo|precio m[ií]nimo|black friday|cyber monday|deals?)\b/i],
   ['Empresa', /\b(resultados|demanda|juicio|tribunal|antimonopolio|ceo|ternus|cook|acciones|ingresos|bruselas|comisi[oó]n europea|regulaci[oó]n|earnings|lawsuit|antitrust)\b/i],
 ];
+
+// Algunos medios publican también temas ajenos a Apple (ofertas de supermercado, otros fabricantes…): se descartan.
+const RELEVANT = /\b(apple|iphone|ipad|ipados|mac(book|os)?|imac|ios|watchos|tvos|visionos|airpods|airtag|homepod|homeview|siri|icloud|app store|carplay|facetime|imessage|safari|magsafe|cupertino|tim cook|ternus|wwdc|vision pro|apple watch|beats)\b/i;
+export const isRelevant = (item, source) => source.official || RELEVANT.test(`${item.title} ${item.categories.join(' ')}`);
 
 export function classify(item, source) {
   const hay = `${item.title} ${item.categories.join(' ')}`;
@@ -108,7 +112,7 @@ async function fetchSource(source) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const items = parseFeed(await res.text());
     if (!items.length) throw new Error('El feed no contiene entradas legibles');
-    return items.slice(0, 40).map((i) => ({
+    return items.filter((i) => isRelevant(i, source)).slice(0, 40).map((i) => ({
       id: Buffer.from(i.link).toString('base64url').slice(-40),
       ...i, ...classify(i, source), source: source.id, sourceName: source.name,
     }));
