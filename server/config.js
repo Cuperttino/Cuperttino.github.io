@@ -23,7 +23,7 @@ export const config = {
   host: env.HOST || '127.0.0.1',
   production: env.NODE_ENV === 'production',
   // URL pública (para sitemap y canonical). En local se deduce del puerto.
-  siteUrl: env.SITE_URL || `http://localhost:${Number(env.PORT) || 4173}`,
+  siteUrl: env.SITE_URL || env.RENDER_EXTERNAL_URL || `http://localhost:${Number(env.PORT) || 4173}`,
   sessionDays: 30,
   newsTtlMs: (Number(env.NEWS_TTL_MINUTES) || 15) * 60_000,
   // IA opcional para ampliar la opinión del comparador. La clave nunca sale del servidor.

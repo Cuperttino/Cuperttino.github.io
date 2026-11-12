@@ -41,6 +41,16 @@ Abre <http://localhost:4173>. Para desarrollo con recarga del servidor: `npm run
 
 El workflow `.github/workflows/update-and-deploy.yml` ejecuta las pruebas, construye `dist/` y lo publica en cada push a `main`, cada hora y a mano desde la pestaña Actions.
 
+## Publicar la versión completa (con cuentas)
+
+La versión completa necesita un alojamiento que ejecute Node. El repositorio incluye `render.yaml` para [Render](https://render.com):
+
+1. Entra en render.com e inicia sesión con tu cuenta de GitHub.
+2. **New → Blueprint**, elige este repositorio y pulsa **Apply**.
+3. En un par de minutos tendrás una dirección `https://pomar-xxxx.onrender.com` con la web completa.
+
+En el plan gratuito de Render el servicio se duerme tras un rato sin visitas (la primera carga tarda) y **el disco no es permanente**: las cuentas y dispositivos se borran en cada reinicio. Para conservarlos hace falta un plan con disco persistente montado en `data/`, o cualquier otro alojamiento con disco (un VPS, Fly.io, Railway…): basta con `npm start` y las variables `HOST=0.0.0.0` y `NODE_ENV=production`.
+
 ## Credenciales opcionales
 
 Nada es obligatorio. Copia `.env.example` como `.env` si quieres cambiar algo.

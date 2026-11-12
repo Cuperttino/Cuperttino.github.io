@@ -1,0 +1,16 @@
+# Despliegue de la versión completa (servidor Node) en Render: New → Blueprint.
+services:
+  - type: web
+    name: pomar
+    runtime: node
+    plan: free
+    buildCommand: "node --version"
+    startCommand: npm start
+    healthCheckPath: /api/config
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
