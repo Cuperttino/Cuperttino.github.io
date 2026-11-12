@@ -14,7 +14,6 @@ export const SOURCES = [
   { id: 'soydemac', name: 'Soy de Mac', url: 'https://www.soydemac.com/feed/', site: 'https://www.soydemac.com/' },
   { id: 'ipadizate', name: 'iPadizate', url: 'https://www.ipadizate.com/feed', site: 'https://www.ipadizate.com/' },
   { id: 'lamanzanamordida', name: 'La Manzana Mordida', url: 'https://lamanzanamordida.net/feed/', site: 'https://lamanzanamordida.net/' },
-  { id: 'hipertextual', name: 'Hipertextual', url: 'https://hipertextual.com/tag/apple/feed', site: 'https://hipertextual.com/tag/apple' },
   { id: 'isenacode', name: 'iSenaCode', url: 'https://isenacode.com/feed/', site: 'https://isenacode.com/' },
 ];
 
