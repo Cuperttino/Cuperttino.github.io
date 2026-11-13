@@ -27,7 +27,7 @@ h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 ::selection { background: var(--accent); color: var(--bg); }
-.i { width: 18px; height: 18px; flex: none; }
+.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
 .skip { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 10px; transition: top var(--t1) var(--ease); }
 .skip:focus { top: 12px; }
 .na { color: var(--muted); font-style: italic; }
@@ -57,10 +57,8 @@ ul, ol { list-style: none; }
 .nav__links a, .nav__tools > * { transition: opacity var(--t2) var(--ease), transform var(--t2) var(--ease), color var(--t1), background var(--t1); }
 .is-loading .nav__links a, .is-loading .nav__tools > * { opacity: 0; transform: translateY(-8px); }
 .nav__links a:nth-child(2) { transition-delay: 40ms; } .nav__links a:nth-child(3) { transition-delay: 80ms; } .nav__links a:nth-child(4) { transition-delay: 120ms; } .nav__links a:nth-child(5) { transition-delay: 160ms; }
-#view.is-leaving { opacity: 0; transform: translateY(6px); } #view { transition: opacity var(--t1) var(--ease-in), transform var(--t1) var(--ease-in); }
-::view-transition-old(root) { animation: vt-out 200ms var(--ease-in) both; } ::view-transition-new(root) { animation: vt-in 480ms var(--ease) both; }
-@keyframes vt-out { to { opacity: 0; transform: translateY(-6px) scale(.995); } } @keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
-::view-transition-group(nav) { animation: none; } .nav { view-transition-name: nav; }
+#view.is-entering { animation: view-in 260ms var(--ease) both; } @keyframes view-in { from { opacity: 0; transform: translateY(8px); } }
+.js .no-anim, .js .no-anim .w > span { transition: none !important; }
 
 /* ---------- navegación ---------- */
 .nav { position: sticky; top: 0; z-index: 40; height: var(--nav-h); background: var(--glass); backdrop-filter: saturate(160%) blur(18px); -webkit-backdrop-filter: saturate(160%) blur(18px); border-bottom: 1px solid transparent; transition: border-color var(--t2) var(--ease), background var(--t2) var(--ease); }
@@ -137,6 +135,7 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .gallery__nav--prev { left: 12px; transform: translateX(-6px); } .gallery__nav--prev .i { transform: rotate(180deg); } .gallery__nav--next { right: 12px; transform: translateX(6px); }
 .gallery__main:hover .gallery__nav, .gallery__main:focus-within .gallery__nav, .gallery__nav:focus-visible { opacity: 1; transform: none; } @media (hover: none) { .gallery__nav { opacity: 1; transform: none; } }
 .gallery__count { position: absolute; left: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; font: 500 .75rem var(--mono); z-index: 2; }
+.gallery__zoom .i, .gallery__nav .i { width: 18px; height: 18px; color: var(--ink); }
 .gallery__zoom { position: absolute; right: 12px; top: 12px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; z-index: 2; transition: transform var(--t1) var(--ease); } .gallery__zoom:hover { transform: scale(1.08); }
 .gallery__credit { padding: 10px 14px; font-size: .74rem; color: var(--muted); border-top: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 37px; } .gallery__credit a { text-decoration: underline; text-underline-offset: 3px; }
 .gallery__thumbs { display: flex; gap: 8px; padding: 0 12px 12px; overflow-x: auto; scrollbar-width: none; } .gallery__thumbs::-webkit-scrollbar { display: none; }

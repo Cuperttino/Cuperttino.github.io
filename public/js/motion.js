@@ -20,9 +20,23 @@ function split(el) {
   });
 }
 
+// Tras la primera carga, lo que ya está en pantalla al cambiar de página aparece sin animación propia:
+// así la única transición visible es el fundido de la vista (evita el efecto de «cargar dos veces»).
+let firstLoad = true;
+export const markLoaded = () => { firstLoad = false; };
+
 export function scan(root = document) {
   root.querySelectorAll('[data-split]').forEach(split);
   if (reduced()) { root.querySelectorAll('[data-reveal],[data-split]').forEach((el) => el.classList.add('is-in')); return; }
+  if (!firstLoad) {
+    root.querySelectorAll('[data-stagger]').forEach((group) => [...group.children].forEach((c) => c.setAttribute('data-reveal', '')));
+    const limit = innerHeight * 1.05;
+    root.querySelectorAll('[data-reveal],[data-split]').forEach((el) => {
+      if (el.classList.contains('is-in')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < limit && r.bottom > 0) el.classList.add('no-anim', 'is-in');
+    });
+  }
   // Escalonado: los hijos directos de [data-stagger] entran uno tras otro.
   root.querySelectorAll('[data-stagger]').forEach((group) => [...group.children].forEach((c, i) => { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', `${Math.min(i, 10) * 60}ms`); }));
   root.querySelectorAll('[data-reveal],[data-split]').forEach((el) => observer().observe(el));
@@ -65,13 +79,12 @@ export function initMotion() {
   }
 }
 
-// Transición entre páginas: View Transitions API si existe; si no, un fundido con las mismas curvas.
+// Transición entre páginas: un único fundido corto de la vista nueva.
 export async function pageTransition(update) {
-  if (reduced()) return update();
-  if (document.startViewTransition) { const t = document.startViewTransition(update); try { await t.updateCallbackDone; } catch { /* la vista ya gestiona sus errores */ } return; }
   const main = document.getElementById('view');
-  main.classList.add('is-leaving'); await new Promise((r) => setTimeout(r, 180));
-  await update(); main.classList.remove('is-leaving');
+  await update();
+  if (reduced()) return;
+  main.classList.remove('is-entering'); void main.offsetWidth; main.classList.add('is-entering');
 }
 
 // Contador animado para cifras.

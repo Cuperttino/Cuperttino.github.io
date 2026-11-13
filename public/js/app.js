@@ -1,6 +1,6 @@
 // Arranque, enrutador y comportamientos globales (tema, menú, buscador).
 import { html, api, session, loadSession, icon, debounce, esc } from './lib.js';
-import { initMotion, scan, pageTransition } from './motion.js';
+import { initMotion, scan, pageTransition, markLoaded } from './motion.js';
 import { errorBox } from './ui.js';
 
 const ROUTES = [
@@ -129,4 +129,4 @@ addEventListener('keydown', (e) => {
 // ---------- arranque ----------
 initMotion();
 loadSession().then(refreshAccount);
-render(new URL(location.href), { scroll: false }).finally(() => requestAnimationFrame(() => document.documentElement.classList.remove('is-loading')));
+render(new URL(location.href), { scroll: false }).finally(() => { markLoaded(); requestAnimationFrame(() => document.documentElement.classList.remove('is-loading')); });

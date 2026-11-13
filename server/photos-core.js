@@ -60,6 +60,8 @@ const apiUrl = (params) => { const url = new URL('https://commons.wikimedia.org/
 export const commonsCategoryUrl = (query) => apiUrl({ generator: 'categorymembers', gcmtitle: `Category:${query}`, gcmtype: 'file', gcmlimit: '40' });
 export const commonsUrl = (query) => apiUrl({ generator: 'search', gsrnamespace: '6', gsrsearch: `${query} filetype:bitmap`, gsrlimit: '40' });
 
+const decodeEntities = (s) => String(s).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;|&rsquo;/g, "'").replace(/&nbsp;/g, ' ');
+
 // ---------- Imágenes oficiales de Apple Newsroom ----------
 // El propietario del sitio declara tener permiso de Apple para usarlas. Se enlazan desde apple.com (no se copian)
 // y se muestran con crédito a Apple y enlace a la nota de prensa.
@@ -70,11 +72,18 @@ export function applePhotosFromHtml(html, product, max = 8) {
   if (!slug) return [];
   const filter = only ? new RegExp(only, 'i') : null;
   const seen = new Set(), out = [];
-  for (const m of String(html).matchAll(/\/newsroom\/images\/([^"'\s,)<>]+?\.(?:jpg|png))\.large\.jpg/g)) {
+  const text = String(html);
+  // Texto alternativo de cada imagen (Apple lo escribe en inglés también en las ediciones locales).
+  const alts = [...text.matchAll(/<img\b[^>]*>/gi)].map((m) => ({ at: m.index, alt: (m[0].match(/\balt="([^"]*)"/i) || [])[1] || '' }));
+  const altNear = (at) => { let best = null; for (const a of alts) { const d = Math.abs(a.at - at); if (d < 2500 && (!best || d < best.d)) best = { d, alt: a.alt }; } return best?.alt || ''; };
+  const SAMPLE = /\b(photo|image|video|selfie|picture|portrait|shot|footage)s? (taken|captured|shot|recorded)\b|\b(taken|shot|captured|recorded) (with|on)\b|\bshot on\b|\bfeatures (a |an )?(close-?up|portrait|group|person|woman|man|child|people)/i;
+  for (const m of text.matchAll(/\/newsroom\/images\/([^"'\s,)<>]+?\.(?:jpg|png))\.large\.jpg/g)) {
     const base = m[1], name = base.split('/').pop();
     if (seen.has(base)) continue; seen.add(base);
-    if (/shot-on|photo-taken|taken-with|selfie|sample|-photo-|portrait-mode/i.test(name) || (filter && !filter.test(name))) continue;
-    const title = name.replace(/\.(jpg|png)$/i, '').replace(/_(big|inline|Full-Bleed-Image|big_carousel)$/i, '').replace(/[-_]\d{6,8}$/, '').replace(/^Apple[-_]/i, '').replace(/[-_]+/g, ' ');
+    if (/shot-on|photo-taken|taken-with|selfie|sample|-photo-|portrait-mode|photographer|photography|camera-sample|creator|artist|lifestyle/i.test(name) || (filter && !filter.test(name))) continue;
+    const alt = decodeEntities(altNear(m.index));
+    if (alt && SAMPLE.test(alt)) continue;
+    const title = alt || name.replace(/\.(jpg|png)$/i, '').replace(/_(big|inline|Full-Bleed-Image|big_carousel)$/i, '').replace(/[-_]\d{6,8}$/, '').replace(/^Apple[-_]/i, '').replace(/[-_]+/g, ' ');
     out.push({ src: `${APPLE}images/${base}.large_2x.jpg`, full: `${APPLE}images/${base}.large_2x.jpg`, page: APPLE + slug, title, author: 'Apple', license: 'Apple Newsroom', local: false, apple: true });
     if (out.length >= max) break;
   }

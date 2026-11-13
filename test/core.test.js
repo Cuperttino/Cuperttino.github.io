@@ -7,6 +7,7 @@ import { compare } from '../server/compare.js';
 import { advise } from '../server/advisor.js';
 import { search } from '../server/search.js';
 import { pickPhotos, photoQuery } from '../server/photos.js';
+import { applePhotosFromHtml } from '../server/photos-core.js';
 
 const RSS = `<?xml version="1.0"?><rss version="2.0"><channel><title>Demo</title>
 <item><title><![CDATA[Apple &amp; friends: a &#8220;test&#8221;]]></title><link>https://example.com/a?utm_source=rss&amp;id=1</link><pubDate>Wed, 11 Nov 2026 16:33:39 +0000</pubDate><category>iPhone</category><description><![CDATA[<p>Hola <b>mundo</b></p>]]></description></item>
@@ -86,4 +87,13 @@ test('la galería filtra por licencia, tamaño y variante de modelo', () => {
   assert.equal(photoQuery(byId.get('macbook-air-m4')), 'MacBook Air M4');
   assert.equal(pickPhotos({ 1: { title: 'File:IPhone17 rear.jpg', imageinfo: [info()] }, 2: { title: 'File:Orange phone.jpg', imageinfo: [info()] } }, 'iPhone 17').length, 1);
   assert.equal(pickPhotos({ 2: { title: 'File:Orange phone.jpg', imageinfo: [info()] } }, 'iPhone 17', 8, false).length, 1);
+});
+test('la galería de Apple descarta las fotos de ejemplo hechas con el dispositivo', () => {
+  const img = (file, alt) => `<figure><img alt="${alt}" src="/newsroom/images/2025/09/apple-debuts-iphone-17/article/${file}.large.jpg"></figure>` + ' '.repeat(3000);
+  const html = img('Apple-iPhone-17-hero-250909_inline.jpg', 'Two iPhone 17 devices, highlighting the front and back of each.')
+    + img('Apple-iPhone-17-woman-250909_big.jpg', 'A photo taken with iPhone 17 features a woman in a red shirt.')
+    + img('Apple-iPhone-17-lineup-250909_big.jpg', 'The iPhone 17 lineup in five colors.');
+  const out = applePhotosFromHtml(html, byId.get('iphone-17'));
+  assert.equal(out.length, 2);
+  assert.match(out[0].title, /Two iPhone 17 devices/);
 });

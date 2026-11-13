@@ -19,7 +19,7 @@ const get = async (url) => {
 
 let prev = null;
 if (!FORCE) { try { prev = await fetch(`${SITE}/fotos/commons.json`, { signal: AbortSignal.timeout(8000) }).then((r) => (r.ok ? r.json() : null)); } catch { /* primera vez */ } }
-const fresh = prev && prev.version === 3 && Date.now() - prev.at < 7 * 86_400_000;
+const fresh = prev && prev.version === 4 && Date.now() - prev.at < 7 * 86_400_000;
 const pages = new Map();
 const getText = async (url) => {
   if (!pages.has(url)) pages.set(url, fetch(url, { signal: AbortSignal.timeout(20000), headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Pomar/1.0; +https://cuperttino.github.io)', Accept: 'text/html' } }).then((r) => (r.ok ? r.text() : Promise.reject(new Error(`HTTP ${r.status}`)))));
@@ -37,5 +37,5 @@ for (const p of PRODUCTS) {
   await sleep(250);
 }
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, JSON.stringify({ version: 3, at: fresh ? prev.at : Date.now(), products }));
+fs.writeFileSync(OUT, JSON.stringify({ version: 4, at: fresh ? prev.at : Date.now(), products }));
 console.log(`Fotos: ${withPhotos} de ${PRODUCTS.length} productos con galería. Errores: ${errors}.`);
