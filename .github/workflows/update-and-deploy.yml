@@ -57,3 +57,11 @@ jobs:
       - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Actualizar también la versión completa en Render
+        if: github.event_name == 'push'
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then echo "Sin RENDER_DEPLOY_HOOK: Render no se actualiza automáticamente."; exit 0; fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK" > /dev/null && echo "Render: despliegue solicitado."
