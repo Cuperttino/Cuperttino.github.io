@@ -52,6 +52,8 @@ test('el comparador no favorece siempre al más nuevo ni al más caro', () => {
   const v = compare([byId.get('iphone-17-pro'), byId.get('iphone-18-pro')]).verdict;
   assert.equal(v.pick.id, 'iphone-17-pro');
   assert.equal(v.upgrade.kind, 'incremental');
+  assert.match(v.worthMore, /€/);
+  assert.equal(byId.get('iphone-17').priceEUR, 959);
   const v2 = compare([byId.get('iphone-13'), byId.get('iphone-17')]).verdict;
   assert.equal(v2.pick.id, 'iphone-17');
   assert.equal(v2.upgrade.kind, 'importante');

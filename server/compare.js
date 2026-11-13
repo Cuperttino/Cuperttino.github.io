@@ -3,6 +3,7 @@
 import { categoryOf } from './data/products.js';
 
 const fmtUSD = (n) => (n == null ? null : `${n.toLocaleString('es-ES')} $`);
+const fmtEUR = (n) => (n == null ? null : `${n.toLocaleString('es-ES')} €`);
 const inches = (p) => { const m = (p.display || '').match(/(\d+(?:,\d+)?)\s*"/); return m ? parseFloat(m[1].replace(',', '.')) : null; };
 const lenses = (p) => {
   const c = p.cameras || '';
@@ -27,6 +28,7 @@ export function tableRows(ps) {
   const text = (label, key) => ({ label, values: ps.map((p) => p[key] ?? null), best: null });
   return [
     { label: 'Lanzamiento', values: ps.map((p) => p.released), best: null },
+    { ...row('Precio de lanzamiento (España)', (p) => p.priceEUR, 'min'), format: 'eur', notes: ps.map((p) => p.priceEURNote || null) },
     { ...row('Precio de lanzamiento (EE. UU.)', (p) => p.price, 'min'), format: 'usd', notes: ps.map((p) => p.priceNote || null) },
     text('Procesador', 'chip'), text('Arquitectura', 'arch'), text('Memoria', 'ram'),
     { label: 'Almacenamiento', values: ps.map((p) => (p.storage ? p.storage.join(' · ') : null)), best: null },
@@ -105,10 +107,14 @@ function featureScore(p, ps) {
   return parts.length ? parts.reduce((s, v) => s + v, 0) / parts.length : 0.5;
 }
 
-export function compare(ps) {
-  const rows = tableRows(ps);
+export function compare(input) {
+  const rows = tableRows(input);
+  // El veredicto usa euros si todos los productos tienen precio de España; si no, dólares.
+  const eur = input.every((p) => p.priceEUR != null);
+  const fmt = eur ? fmtEUR : fmtUSD;
+  const ps = eur ? input.map((p) => ({ ...p, price: p.priceEUR })) : input;
   const cats = new Set(ps.map(categoryOf));
-  const caveats = ['Los precios son los de lanzamiento en Estados Unidos (USD, sin impuestos). El precio actual varía según tienda y país y no se incluye por no disponer de una fuente fiable y actualizada.'];
+  const caveats = [eur ? 'Los precios del veredicto son los de lanzamiento en España (euros, IVA incluido), según las notas de prensa de Apple. El precio actual varía según la tienda y no se incluye por no disponer de una fuente fiable y actualizada.' : 'Alguno de estos productos no tiene precio de España verificado, así que el veredicto usa los precios de lanzamiento en Estados Unidos (USD, sin impuestos). El precio actual varía según tienda y país.'];
   const partial = ps.filter((p) => p.verified === 'parcial');
   if (partial.length) caveats.push(`${partial.map((p) => p.name).join(' y ')}: ficha con verificación parcial por ser un producto reciente. Las dimensiones sin dato no intervienen en el veredicto.`);
   if (cats.size > 1 || cats.has('clasico') || cats.has('accesorio')) {
@@ -132,12 +138,12 @@ export function compare(ps) {
   let worthMore = null;
   if (cheap && dear && cheap !== dear) {
     const gap = dear.price - cheap.price;
-    const lead = gap > 0 ? `Los ${fmtUSD(gap)} de diferencia de salida compran` : 'Salieron al mismo precio, pero el más reciente ofrece';
+    const lead = gap > 0 ? `Los ${fmt(gap)} de diferencia de salida compran` : 'Salieron al mismo precio, pero el más reciente ofrece';
     const wins = d.big.filter((x) => x.winner === dear.id);
     const losses = d.big.filter((x) => x.winner === cheap.id);
     if (wins.length >= 2) worthMore = `${lead} mejoras que se notan (${wins.map((w) => w.topic.toLowerCase()).join(', ')}). Compensa si esas áreas te importan; si no, ${cheap.name} cumple.`;
-    else if (wins.length === 1) worthMore = `${gap > 0 ? `Por ${fmtUSD(gap)} más, ` : ''}${dear.name} solo aporta una ventaja clara (${wins[0].topic.toLowerCase()}). Págalos únicamente si esa mejora es importante para ti.`;
-    else worthMore = `Con los datos de las fichas, ${dear.name} no ofrece ninguna ventaja que se note en el uso diario frente a ${cheap.name}. ${gap > 0 ? `No merece la pena pagar ${fmtUSD(gap)} más.` : 'Elige por precio real de tienda.'}`;
+    else if (wins.length === 1) worthMore = `${gap > 0 ? `Por ${fmt(gap)} más, ` : ''}${dear.name} solo aporta una ventaja clara (${wins[0].topic.toLowerCase()}). Págalos únicamente si esa mejora es importante para ti.`;
+    else worthMore = `Con los datos de las fichas, ${dear.name} no ofrece ninguna ventaja que se note en el uso diario frente a ${cheap.name}. ${gap > 0 ? `No merece la pena pagar ${fmt(gap)} más.` : 'Elige por precio real de tienda.'}`;
     if (losses.length) worthMore += ` Ojo: ${cheap.name} incluso gana en ${losses.map((w) => w.topic.toLowerCase()).join(' y ')}.`;
   }
 
@@ -159,7 +165,7 @@ export function compare(ps) {
   const pool = ok.length ? ok : ps;
   const add = (who, p, why) => { if (p) profiles.push({ who, id: p.id, name: p.name, why }); };
   const pricedPool = pool.filter((p) => p.price).sort((a, b) => a.price - b.price);
-  add('Si quieres gastar lo justo', pricedPool[0], pricedPool[0] && `Es el más económico de salida (${fmtUSD(pricedPool[0].price)}) y sigue siendo una compra razonable.`);
+  add('Si quieres gastar lo justo', pricedPool[0], pricedPool[0] && `Es el más económico de salida (${fmt(pricedPool[0].price)}) y sigue siendo una compra razonable.`);
   if (pool.every((p) => p.hours)) { const b = [...pool].sort((x, y) => y.hours - x.hours)[0]; add('Si priorizas la batería', b, `${b.hours} h en la cifra de referencia de Apple, la más alta de la comparación.`); }
   if (pool.every((p) => lenses(p))) { const b = [...pool].sort((x, y) => lenses(y) - lenses(x) || y.released.localeCompare(x.released))[0]; if (pool.some((p) => lenses(p) !== lenses(b))) add('Si haces muchas fotos y vídeo', b, 'Tiene el sistema de cámaras más completo.'); }
   if (pool.every((p) => p.weight)) { const b = [...pool].sort((x, y) => x.weight - y.weight)[0]; if (pool.some((p) => p.weight / b.weight > 1.1)) add('Si buscas ligereza', b, `Es el más ligero (${b.weight.toLocaleString('es-ES')} g).`); }
@@ -174,7 +180,7 @@ export function compare(ps) {
     verdict: {
       comparable: true,
       pick: { id: pick.p.id, name: pick.p.name, why: pickWhy.trim() },
-      value: { id: value.p.id, name: value.p.name, why: value.p === pick.p ? 'Coincide con la recomendación principal.' : `Sale ${fmtUSD(pick.p.price - value.p.price)} más barato de salida y conserva lo esencial. ${value.p.buy?.text ?? ''}`.trim() },
+      value: { id: value.p.id, name: value.p.name, why: value.p === pick.p ? 'Coincide con la recomendación principal.' : `Sale ${fmt(pick.p.price - value.p.price)} más barato de salida y conserva lo esencial. ${value.p.buy?.text ?? ''}`.trim() },
       noticeable: d.big, minor: d.small, worthMore, upgrade, profiles, caveats,
       method: 'Veredicto calculado por un motor de reglas a partir de las especificaciones verificadas y la valoración editorial de cada ficha. No favorece al modelo más caro ni al más nuevo: pondera autonomía, pantalla, chip, cámaras, soporte de software y precio.',
     },

@@ -1,8 +1,8 @@
-import { html, api, getCatalog, icon, fmtUSD, fmtMonth, fmtWeight, NA, toast } from '../lib.js';
+import { html, api, getCatalog, icon, fmtUSD, fmtEuro, fmtMonth, fmtWeight, NA, toast } from '../lib.js';
 import { scan } from '../motion.js';
 
 const EXAMPLES = [['iphone-17-pro', 'iphone-18-pro'], ['macbook-air-m4', 'macbook-pro-14-m5'], ['apple-watch-series-11', 'apple-watch-ultra-3'], ['ipad-air-m4', 'ipad-pro-m5'], ['iphone-17', 'iphone-air', 'iphone-17-pro']];
-const cell = (row, v) => (v == null ? NA : row.format === 'usd' ? fmtUSD(v) : row.format === 'hz' ? `${v} Hz` : row.format === 'h' ? `${String(v).replace('.', ',')} h` : row.format === 'g' ? fmtWeight(v) : row.label === 'Lanzamiento' ? fmtMonth(v) : v);
+const cell = (row, v) => (v == null ? NA : row.format === 'usd' ? fmtUSD(v) : row.format === 'eur' ? fmtEuro(v) : row.format === 'hz' ? `${v} Hz` : row.format === 'h' ? `${String(v).replace('.', ',')} h` : row.format === 'g' ? fmtWeight(v) : row.label === 'Lanzamiento' ? fmtMonth(v) : v);
 
 export default async function compare({ el, query, navigate }) {
   const [{ families, products }, cfg] = await Promise.all([getCatalog(), api('/api/config').catch(() => ({ ai: false }))]);

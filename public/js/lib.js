@@ -21,6 +21,8 @@ export const loadSession = () => (session.ready = Promise.all([api('/api/auth/me
 
 const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 export const fmtMonth = (ym) => { if (!ym) return ''; const [y, m] = ym.split('-'); return m ? `${MONTHS[Number(m) - 1]} de ${y}` : y; };
+export const fmtEuro = (n) => (n == null ? null : `${Number(n).toLocaleString('es-ES')} €`);
+export const fmtPrice = (p) => (p.priceEUR != null ? fmtEuro(p.priceEUR) : p.price != null ? fmtUSD(p.price) : null);
 export const fmtUSD = (n) => (n == null ? null : `${Number(n).toLocaleString('es-ES')} $`);
 export const fmtEUR = (n) => (n == null ? null : Number(n).toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }));
 export const fmtWeight = (g) => (g == null ? null : g >= 1000 ? `${(g / 1000).toLocaleString('es-ES', { maximumFractionDigits: 2 })} kg` : `${g.toLocaleString('es-ES')} g`);

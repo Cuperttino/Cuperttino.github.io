@@ -1,4 +1,4 @@
-import { html, api, icon, fmtMonth, fmtUSD, fmtWeight, NA, STATUS, BUY, session } from '../lib.js';
+import { html, api, icon, fmtMonth, fmtUSD, fmtEuro, fmtWeight, NA, STATUS, BUY, session } from '../lib.js';
 import { productCard, mountGallery } from '../ui.js';
 
 const OS_STATUS = { actual: 'Recibe actualizaciones', limitado: 'Final del ciclo de soporte', 'sin-soporte': 'Sin actualizaciones' };
@@ -22,7 +22,7 @@ export default async function product({ el, params }) {
         <div class="tagrow" data-reveal><span class="tag">${p.family}</span><span class="tag">${STATUS[p.status]}</span>${p.verified === 'parcial' ? html`<span class="tag tag--rumor">Ficha parcial</span>` : ''}</div>
         <h1 class="h1" data-split>${p.name}</h1>
         <p class="lede" data-reveal style="margin-top:14px;--d:200ms">${p.gen} · ${fmtMonth(p.released)}</p>
-        <p class="price" data-reveal style="--d:260ms">${p.price != null ? html`${fmtUSD(p.price)}<small>Precio original de lanzamiento en EE. UU., modelo base, sin impuestos.${p.priceNote ? ` ${p.priceNote}.` : ''}</small>` : html`<span class="na" style="font-size:1rem">Precio de lanzamiento sin dato verificado</span>`}</p>
+        <p class="price" data-reveal style="--d:260ms">${p.priceEUR != null ? html`${fmtEuro(p.priceEUR)}<small>Precio de lanzamiento en España, modelo base, IVA incluido.${p.priceEURNote ? ` ${p.priceEURNote}.` : ''}${p.price != null ? ` En EE. UU.: ${fmtUSD(p.price)} sin impuestos.` : ''}</small>` : p.price != null ? html`${fmtUSD(p.price)}<small>Precio de lanzamiento en EE. UU., modelo base, sin impuestos.${p.priceNote ? ` ${p.priceNote}.` : ''} Sin precio de España verificado.</small>` : html`<span class="na" style="font-size:1rem">Precio de lanzamiento sin dato verificado</span>`}</p>
         ${p.colors?.length ? html`<div data-reveal style="margin-top:22px;--d:320ms"><p class="small muted">Colores disponibles</p>
           <ul class="swatches" aria-label="Colores disponibles">${p.colors.map(([name, h]) => html`<li class="swatch-chip"><i style="background:${h}" aria-hidden="true"></i>${name}</li>`)}</ul>
           <p class="small muted" style="margin-top:8px">Muestras de color aproximadas.</p></div>` : ''}

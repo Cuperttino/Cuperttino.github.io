@@ -1,4 +1,4 @@
-import { html, api, getCatalog, icon, fmtMonth, fmtEUR, fmtUSD, session, toast } from '../lib.js';
+import { html, api, getCatalog, icon, fmtMonth, fmtEUR, fmtPrice, session, toast } from '../lib.js';
 import { scan, countUp } from '../motion.js';
 
 const RING = { iPhone: 0, 'Apple Watch': 0, AirPods: 0, 'AirPods Max': 0 };
@@ -87,7 +87,7 @@ export default async function ecosystem({ el, query, navigate }) {
         <div class="advice__head"><div><p class="small muted">${a.model}</p><h3>${a.headline}</h3></div><span class="tag tag--${a.priority}">${PRIORITY[a.priority]}</span></div>
         <p>${a.reason}</p>
         ${a.alternative && a.action !== 'conservar' ? html`<dl>
-          <dt>Mejor alternativa</dt><dd><a class="link" href="/producto/${a.alternative.id}">${a.alternative.name}</a>${a.alternative.price != null ? ` · desde ${fmtUSD(a.alternative.price)} de salida` : ''}${a.alternative.verified === 'parcial' ? ' · ficha parcial' : ''}</dd>
+          <dt>Mejor alternativa</dt><dd><a class="link" href="/producto/${a.alternative.id}">${a.alternative.name}</a>${fmtPrice(a.alternative) ? ` · desde ${fmtPrice(a.alternative)} de salida` : ''}${a.alternative.verified === 'parcial' ? ' · ficha parcial' : ''}</dd>
           <dt>Qué cambia</dt><dd>${a.differences.length ? html`<ul>${a.differences.map((t) => html`<li style="margin-bottom:6px">${t}</li>`)}</ul>` : 'Nada que se note en el uso diario.'}</dd>
           ${a.benefit ? html`<dt>Beneficio real</dt><dd>${a.benefit}</dd>` : ''}
           ${a.timing ? html`<dt>¿Ahora o esperar?</dt><dd><strong>${TIMING[a.timing.verdict] || a.timing.verdict}.</strong> ${a.timing.text}${a.timing.rumor ? html` <span class="tag tag--rumor">Rumor</span>` : ''}</dd>` : ''}

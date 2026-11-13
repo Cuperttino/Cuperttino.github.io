@@ -2,7 +2,9 @@ import iphone from './iphone.js';
 import mac from './mac.js';
 import others from './others.js';
 
-export const PRODUCTS = [...iphone, ...mac, ...others];
+import { PRICES_EUR } from './prices-eur.js';
+
+export const PRODUCTS = [...iphone, ...mac, ...others].map((p) => ({ ...p, priceEUR: PRICES_EUR[p.id]?.[0] ?? null, priceEURNote: PRICES_EUR[p.id]?.[1] ?? null }));
 export const byId = new Map(PRODUCTS.map((p) => [p.id, p]));
 
 export const FAMILIES = ['iPhone', 'iPad', 'MacBook Air', 'MacBook Pro', 'MacBook', 'iMac', 'Mac mini', 'Mac Studio', 'Mac Pro',
@@ -25,5 +27,5 @@ export function successorOf(p) {
 
 export const summary = (p) => ({
   id: p.id, family: p.family, name: p.name, gen: p.gen, year: p.year, released: p.released, status: p.status,
-  verified: p.verified, price: p.price, chip: p.chip, colors: p.colors, storage: p.storage, buy: p.buy?.v,
+  verified: p.verified, price: p.price, priceEUR: p.priceEUR, chip: p.chip, colors: p.colors, storage: p.storage, buy: p.buy?.v,
 });

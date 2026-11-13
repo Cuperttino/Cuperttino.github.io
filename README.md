@@ -20,7 +20,7 @@ Abre <http://localhost:4173>. Para desarrollo con recarga del servidor: `npm run
 | Sección | Cómo funciona |
 | --- | --- |
 | **Actualidad** | Feeds RSS/Atom reales en español: Apple Newsroom (edición de España) y medios especializados (Applesfera, Actualidad iPhone, Soy de Mac y otros; lista en `server/news.js`). Se actualizan solos cada 15 min, con caché en disco y aviso si una fuente falla. Solo titular, extracto, fecha y enlace al original (sin imágenes de los medios). Cada titular se clasifica como oficial, rumor, análisis o noticia. |
-| **Enciclopedia** | Fichas en `server/data/`. Precios de lanzamiento en EE. UU. Los productos de otoño de 2026 llevan «ficha parcial»: solo datos contrastados; lo demás aparece como «Sin dato verificado». |
+| **Enciclopedia** | Fichas en `server/data/`. Precios de lanzamiento en España (euros, `server/data/prices-eur.js`) y en EE. UU. Los productos de otoño de 2026 llevan «ficha parcial»: solo datos contrastados; lo demás aparece como «Sin dato verificado». |
 | **Fotos** | Galería por producto con las imágenes oficiales de la nota de prensa de Apple Newsroom (mapa en `server/data/apple-press.js`; el propietario declara tener permiso de Apple). Si no hay nota, fotos libres de Wikimedia Commons. Tus propias fotos en `public/fotos/<id>/` tienen prioridad. |
 | **Comparador** | De 2 a 4 productos. Tabla + veredicto de un motor de reglas (`server/compare.js`) que no favorece al más caro ni al más nuevo. |
 | **Mi ecosistema** | Cuentas con contraseña cifrada (scrypt), sesión en cookie HttpOnly, dispositivos guardados en SQLite (`data/pomar.db`). |

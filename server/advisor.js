@@ -40,7 +40,7 @@ function adviseDevice(d) {
   const gains = dd.big.filter((x) => x.winner === alt.id);
   const differences = gains.map((g) => g.text);
   const minor = dd.small.map((g) => g.text);
-  const altInfo = { id: alt.id, name: alt.name, price: alt.price, verified: alt.verified, note: alt.buy?.text || null };
+  const altInfo = { id: alt.id, name: alt.name, price: alt.price, priceEUR: alt.priceEUR, verified: alt.verified, note: alt.buy?.text || null };
   const recent = monthsSince(alt.released) <= 4;
   const expected = EXPECTED[p.line];
   let timing = expected ? { verdict: 'esperar', text: `${expected.text} Si no tienes prisa, espera.`, rumor: true }

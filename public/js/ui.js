@@ -1,5 +1,5 @@
 // Componentes de interfaz reutilizados por varias vistas.
-import { html, raw, esc, icon, api, timeAgo, KIND, STATUS, fmtUSD } from './lib.js';
+import { html, raw, esc, icon, api, timeAgo, KIND, STATUS, fmtPrice } from './lib.js';
 
 export const kindTag = (kind) => html`<span class="tag tag--${kind}">${KIND[kind] || kind}</span>`;
 
@@ -17,7 +17,7 @@ export function productCard(p) {
     <div class="product-card__swatches" aria-hidden="true">${(p.colors || []).slice(0, 6).map(([, hex]) => raw(`<i style="background:${esc(hex)}"></i>`))}</div>
     <h3>${p.name}</h3>
     <p>${p.chip || p.gen}</p>
-    <div class="product-card__foot"><span class="muted">${p.price != null ? `Desde ${fmtUSD(p.price)}` : STATUS[p.status]}</span>${p.verified === 'parcial' ? html`<span class="tag tag--rumor" title="Producto reciente: solo datos contrastados">Ficha parcial</span>` : html`<span class="tag">${STATUS[p.status]}</span>`}</div>
+    <div class="product-card__foot"><span class="muted">${fmtPrice(p) ? `Desde ${fmtPrice(p)}` : STATUS[p.status]}</span>${p.verified === 'parcial' ? html`<span class="tag tag--rumor" title="Producto reciente: solo datos contrastados">Ficha parcial</span>` : html`<span class="tag">${STATUS[p.status]}</span>`}</div>
   </a>`;
 }
 
